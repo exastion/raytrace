@@ -1,16 +1,21 @@
 use std::iter;
 use std::ops;
+use crate::core::Point;
 
 #[derive(PartialEq, Copy, Clone, Debug)]
 pub struct Vector {
-    x: f64,
-    y: f64,
-    z: f64,
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
 }
 
 impl Vector {
-    pub fn new(x: f64, y: f64, z: f64) -> Vector {
-        Vector { x, y, z }
+    pub fn new(x: f64, y: f64, z: f64) -> Self {
+        Self { x, y, z }
+    }
+
+    pub fn rep(v: f64) -> Self {
+        Self::new(v, v, v)
     }
 
     fn components(&self) -> impl Iterator<Item = f64> {
@@ -29,6 +34,10 @@ impl Vector {
             .map(|v| v.powi(2))
             .sum()
     }
+
+    pub fn norm(self) -> Self {
+        self / self.len()
+    }
 }
 
 impl ops::Neg for Vector {
@@ -46,8 +55,8 @@ impl ops::Neg for Vector {
 impl ops::Add for Vector {
     type Output = Self;
 
-    fn add(self, rhs: Self) -> Self {
-        Vector {
+    fn add(self, rhs: Self) -> Self::Output {
+        Self::Output {
             x: self.x + rhs.x,
             y: self.y + rhs.y,
             z: self.z + rhs.z
@@ -64,8 +73,8 @@ impl ops::AddAssign for Vector {
 impl ops::Sub for Vector {
     type Output = Self;
 
-    fn sub(self, rhs: Self) -> Self {
-        Vector {
+    fn sub(self, rhs: Self) -> Self::Output {
+        Self::Output {
             x: self.x - rhs.x,
             y: self.y - rhs.y,
             z: self.z - rhs.z
@@ -82,8 +91,8 @@ impl ops::SubAssign for Vector {
 impl ops::Mul<f64> for Vector {
     type Output = Self;
 
-    fn mul(self, rhs: f64) -> Self {
-        Vector {
+    fn mul(self, rhs: f64) -> Self::Output {
+        Self::Output {
             x: self.x * rhs,
             y: self.y * rhs,
             z: self.z * rhs
@@ -100,8 +109,8 @@ impl ops::MulAssign<f64> for Vector {
 impl ops::Mul<Vector> for f64 {
     type Output = Vector;
 
-    fn mul(self, rhs: Vector) -> Vector {
-        Vector {
+    fn mul(self, rhs: Vector) -> Self::Output {
+        Self::Output {
             x: self * rhs.x,
             y: self * rhs.y,
             z: self * rhs.z
@@ -112,8 +121,8 @@ impl ops::Mul<Vector> for f64 {
 impl ops::Div<f64> for Vector {
     type Output = Self;
 
-    fn div(self, rhs: f64) -> Self {
-        Vector {
+    fn div(self, rhs: f64) -> Self::Output {
+        Self::Output {
             x: self.x / rhs,
             y: self.y / rhs,
             z: self.z / rhs
@@ -160,6 +169,13 @@ mod tests {
     fn lensq() {
         let v = Vector::new(346.0, 135.0, 535.0);
         assert_eq!(v.lensq(), (346*346 + 135*135 + 535*535) as f64);
+    }
+    #[test]
+    fn norm() {
+        let v = Vector::new(23456.0, 6543.0, 2345.0);
+        let n = v.norm();
+        assert_eq!(n.len(), 1.0);
+        assert_eq!(n * v.len(), v);
     }
 
     #[test]
