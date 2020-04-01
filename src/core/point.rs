@@ -126,6 +126,7 @@ mod tests {
         let mut p2 = Point::new(3.0, 2.0, 9.0);
         p2 *= 1.25;
         assert_eq!(p1 * 500.0, Point { x: 500.0, y: 2500.0, z: 3000.0 });
+        assert_eq!(500.0 * p1, Point { x: 500.0, y: 2500.0, z: 3000.0 });
         assert_eq!(p2, Point { x: 3.75, y: 2.5, z: 11.25 });
     }
 

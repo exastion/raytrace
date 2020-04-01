@@ -1,6 +1,5 @@
 use std::iter;
 use std::ops;
-use crate::core::Point;
 
 #[derive(PartialEq, Copy, Clone, Debug)]
 pub struct Vector {
@@ -210,6 +209,7 @@ mod tests {
         let mut v2 = Vector::new(3.0, 2.0, 9.0);
         v2 *= 1.25;
         assert_eq!(v1 * 500.0, Vector { x: 500.0, y: 2500.0, z: 3000.0 });
+        assert_eq!(500.0 * v1, Vector { x: 500.0, y: 2500.0, z: 3000.0 });
         assert_eq!(v2, Vector { x: 3.75, y: 2.5, z: 11.25 });
     }
 
