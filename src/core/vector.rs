@@ -37,6 +37,14 @@ impl Vector {
     pub fn norm(self) -> Self {
         self / self.len()
     }
+
+    pub fn cross(self, rhs: Self) -> Self {
+        Self {
+            x: self.y * rhs.z - self.z * rhs.y,
+            y: self.z * rhs.x - self.x * rhs.z,
+            z: self.x * rhs.y - self.y * rhs.x
+        }
+    }
 }
 
 impl ops::Neg for Vector {
@@ -175,6 +183,19 @@ mod tests {
         let n = v.norm();
         assert_eq!(n.len(), 1.0);
         assert_eq!(n * v.len(), v);
+    }
+
+    #[test]
+    fn cross() {
+        let v1 = Vector::new(1.0, 3.0, 4.0);
+        let v2 = Vector::new(3.0, 10.0, 50.0);
+        let v3 = Vector::new(-22.0, -4.0, 3.0);
+        assert_eq!(v1.cross(v1), Vector::rep(0.0));
+        assert_eq!(v2.cross(v2), Vector::rep(0.0));
+        assert_eq!(v3.cross(v3), Vector::rep(0.0));
+        assert_eq!(v1.cross(v2), Vector::new(110.0, -38.0, 1.0));
+        assert_eq!(v2.cross(v3), Vector::new(230.0, -1109.0, 208.0));
+        assert_eq!(v3.cross(v1), Vector::new(-25.0, 91.0, -62.0));
     }
 
     #[test]
