@@ -16,6 +16,22 @@ impl Point {
     pub fn rep(v: f64) -> Self {
         Self::new(v, v, v)
     }
+
+    pub fn min(self, other: Self) -> Self {
+        Self {
+            x: f64::min(self.x, other.x),
+            y: f64::min(self.y, other.y),
+            z: f64::min(self.z, other.z),
+        }
+    }
+
+    pub fn max(self, other: Self) -> Self {
+        Self {
+            x: f64::max(self.x, other.x),
+            y: f64::max(self.y, other.y),
+            z: f64::max(self.z, other.z),
+        }
+    }
 }
 
 impl ops::Add<Vector> for Point {
@@ -104,6 +120,14 @@ mod tests {
     fn new() {
         let p = Point::new(1.0, 2.0, 3.0);
         assert_eq!(p, Point { x: 1.0, y: 2.0, z: 3.0 });
+    }
+
+    #[test]
+    fn min_max() {
+        let p1 = Point::new(1.5, 2.8, 3.5);
+        let p2 = Point::new(-3.0, 10.5, 5.5);
+        assert_eq!(Point::min(p1, p2), Point { x: -3.0, y: 2.8, z: 3.5 });
+        assert_eq!(Point::max(p1, p2), Point { x: 1.5, y: 10.5, z: 5.5 });
     }
 
     #[test]

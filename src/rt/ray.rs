@@ -3,8 +3,8 @@ use crate::core::Vector;
 
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Ray {
-    o: Point,
-    d: Vector,
+    pub o: Point,
+    pub d: Vector,
 }
 
 impl Ray {
